@@ -1,0 +1,42 @@
+﻿Option Explicit
+
+Private Sub Workbook_Open()
+'''''''''''''''''''''''''''
+Dim I As Long
+Dim ColNo As Long
+Dim ColHead As String
+'''''''''''''''''''''
+AlphaHash.CompareMode = TextCompare
+
+For I = 1 To Len(ALPHABET)
+    AlphaHash.Add Mid(ALPHABET, I, 1), I
+    Next I
+    
+For I = 1 To Len(NUMBERS)
+    NumerHash.Add Mid(NUMBERS, I, 1), I
+    Next I
+    
+Set wbUser = ThisWorkbook
+
+With shPhotosAcc
+    Set .Sh = wbUser.Worksheets("Photos(Entered)")
+    .ColMap.CompareMode = TextCompare
+    For ColNo = 1 To 99
+        ColHead = .Sh.Cells(1, ColNo)
+        If ColHead = "" Then Exit For
+        .ColMap.Add ColHead, ColNo
+        Next ColNo
+    End With
+         
+With shPhotosLog
+    Set .Sh = wbUser.Worksheets("Photos(Log)")
+    .ColMap.CompareMode = TextCompare
+    End With
+    
+With shPhotosCnv
+    Set .Sh = wbUser.Worksheets("Photos(Converted)")
+    .ColMap.CompareMode = TextCompare
+    End With
+
+frmCP.Show vbModeless
+End Sub
