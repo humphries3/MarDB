@@ -5,17 +5,27 @@ Private Sub Workbook_Open()
 Dim I As Long
 Dim ColNo As Long
 Dim ColHead As String
-'''''''''''''''''''''
-AlphaHash.CompareMode = TextCompare
+Dim monLiterals
+'''''''''''''''
+monLiterals = Array( _
+    "january", "february", "march", "april", "may", "june", _
+    "july", "august", "september", "october", "november", "december")
+    
+dateStoreDesc = Array("DATE", "MON-YR", "DESC", "WHERE")
+dateDlmAllow.Add "", 1
+dateDlmAllow.Add " ", 1
+dateDlmAllow.Add ".", 1
+dateDlmAllow.Add ",", 1
+    
+monDict.CompareMode = TextCompare
+    
+For I = 0 To UBound(monLiterals)
+    monDict(monLiterals(I)) = I + 1
+    Next I
+    
+Call initRgx
 
-For I = 1 To Len(ALPHABET)
-    AlphaHash.Add Mid(ALPHABET, I, 1), I
-    Next I
-    
-For I = 1 To Len(NUMBERS)
-    NumerHash.Add Mid(NUMBERS, I, 1), I
-    Next I
-    
+ 
 Set wbUser = ThisWorkbook
 
 With shPhotosAcc
